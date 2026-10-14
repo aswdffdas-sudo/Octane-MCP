@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -378,17 +380,31 @@ namespace OctaneMCPSetup
 
         private void ResolvePaths()
         {
+            string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            pluginsFolder = System.IO.Path.Combine(localAppData, "Roblox", "Plugins");
+
             string baseDir = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\', '/');
-            if (File.Exists(System.IO.Path.Combine(baseDir, "server.js")))
+            if (File.Exists(System.IO.Path.Combine(baseDir, "server.js")) &&
+                File.Exists(System.IO.Path.Combine(baseDir, "MCPBridge2021.lua")))
             {
                 repoDir = baseDir;
             }
             else
             {
                 DirectoryInfo parent = Directory.GetParent(baseDir);
-                repoDir = (parent != null && File.Exists(System.IO.Path.Combine(parent.FullName, "server.js")))
-                    ? parent.FullName
-                    : baseDir;
+                if (parent != null &&
+                    File.Exists(System.IO.Path.Combine(parent.FullName, "server.js")) &&
+                    File.Exists(System.IO.Path.Combine(parent.FullName, "MCPBridge2021.lua")))
+                {
+                    repoDir = parent.FullName;
+                }
+                else
+                {
+                    // Standalone .exe mode: extract embedded payload into %LOCALAPPDATA%\OctaneStudioMCP
+                    string standaloneDir = System.IO.Path.Combine(localAppData, "OctaneStudioMCP");
+                    ExtractEmbeddedPayload(standaloneDir);
+                    repoDir = standaloneDir;
+                }
             }
 
             serverJsPath = System.IO.Path.Combine(repoDir, "server.js");
@@ -396,9 +412,39 @@ namespace OctaneMCPSetup
             pluginSourcePath = System.IO.Path.Combine(repoDir, "MCPBridge2021.lua");
             extensionDir = System.IO.Path.Combine(repoDir, "extension");
             startBatPath = System.IO.Path.Combine(repoDir, "start.bat");
+        }
 
-            string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            pluginsFolder = System.IO.Path.Combine(localAppData, "Roblox", "Plugins");
+        private void ExtractEmbeddedPayload(string targetDir)
+        {
+            try
+            {
+                Directory.CreateDirectory(targetDir);
+                Assembly asm = Assembly.GetExecutingAssembly();
+                using (Stream resStream = asm.GetManifestResourceStream("OctaneMCP.Payload.zip"))
+                {
+                    if (resStream == null) return;
+                    using (ZipArchive archive = new ZipArchive(resStream, ZipArchiveMode.Read))
+                    {
+                        foreach (ZipArchiveEntry entry in archive.Entries)
+                        {
+                            string fullPath = System.IO.Path.Combine(targetDir, entry.FullName.Replace('/', '\\'));
+                            if (String.IsNullOrEmpty(entry.Name))
+                            {
+                                Directory.CreateDirectory(fullPath);
+                                continue;
+                            }
+                            string dir = System.IO.Path.GetDirectoryName(fullPath);
+                            if (!String.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
+                            using (Stream inStream = entry.Open())
+                            using (FileStream outStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                            {
+                                inStream.CopyTo(outStream);
+                            }
+                        }
+                    }
+                }
+            }
+            catch { }
         }
 
         private void TryLoadIcon()
