@@ -1,6 +1,6 @@
 {
   "name": "roblox-2021-studio-mcp",
-  "version": "1.0.0",
+  "version": "1.5.7",
   "description": "Model Context Protocol (MCP) server & plugin bridge for 2021 Roblox Studio",
   "main": "server.js",
   "type": "module",

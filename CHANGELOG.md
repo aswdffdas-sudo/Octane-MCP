@@ -2,6 +2,19 @@
 
 All notable changes to the Octane 2021 Roblox Studio MCP Bridge & ZeroScript Extension are documented here.
 
+## [1.5.7] - 2026-10-14
+
+### Added
+- **Native Windows Setup & Control Center App (`Octane Studio MCP Setup.exe`)**:
+  - Standalone WPF desktop utility (`app/SetupApp.cs`) with frameless dark chrome (`#161618` zinc palette matching `extension/overlay.css`).
+  - **Step 1 (Studio Plugin)**: 1-click installer for `MCPBridge2021.lua` into `%LOCALAPPDATA%\Roblox\Plugins` with manual step-by-step verification guide.
+  - **Step 2 (Dependencies)**: Live Node.js & `node_modules` detector with built-in `npm install` runner and console output.
+  - **Step 3 (AI Client Config)**: 1-click auto-configurator and path-populated snippets for OpenCode, Claude Desktop, Cursor, Windsurf, Claude Code CLI, and Codex CLI.
+  - **Step 4 (Browser Extension)**: Guided setup for loading the ZeroScript Chrome/Edge extension and launching `start.bat`.
+  - **Step 5 (Connection & Tools)**: Live diagnostic console to ping 2021 Roblox Studio, inspect `Workspace`, read Studio output logs, capture screenshots, and copy example tool prompts.
+
+---
+
 ## [1.5.6] - 2026-09-17
 
 ### Added

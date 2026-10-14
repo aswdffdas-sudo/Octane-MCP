@@ -19,6 +19,13 @@ Connect AI coding assistants (**OpenCode**, **Claude Desktop / Claude Code**, **
 
 ## 🚀 Quick Setup Guide
 
+> **✨ NEW: Native Desktop Setup & Control Center App (`Octane Studio MCP Setup.exe`)**
+> Double-click **`Octane Studio MCP Setup.exe`** to open the native Windows GUI installer & control center! It includes:
+> - **⚡ 1-Click Studio Plugin Installer** (automatically copies `MCPBridge2021.lua` into `%localappdata%\Roblox\Plugins`)
+> - **📦 Built-in `npm install` Runner** (installs server dependencies right inside the app)
+> - **🤖 1-Click AI Client Configurator** (auto-configures OpenCode, Claude Desktop, Cursor, Windsurf, Claude Code, Codex, and the ZeroScript Browser Extension)
+> - **🧪 Live Studio Connection Tester** (ping 2021 Studio, inspect `Workspace`, read logs, and test screenshots live)
+
 ### 1. Install the Studio Plugin
 1. Open Windows Run (`Win + R`), type:
    ```text

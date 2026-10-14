@@ -104,13 +104,13 @@ app.post("/respond", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// REST API for web extensions
+// REST API for web extensions & desktop setup app
 app.get("/api/status", (req, res) => {
   const isStudioAlive = lastStudioPollTime > 0 && Date.now() - lastStudioPollTime < 4500;
   res.json({
     ok: true,
     server: "Aisaka 2021 Roblox Studio MCP",
-    version: "1.5.6-retro",
+    version: "1.5.7-retro",
     studioConnected: isStudioAlive,
     lastHeartbeatSec: lastStudioPollTime > 0 ? Math.round((Date.now() - lastStudioPollTime) / 1000) : null,
     port: PORT,
@@ -484,7 +484,7 @@ ${typeof logs === "string" ? logs.split("\n").slice(-15).join("\n") : ""}`;
 const server = new Server(
   {
     name: "roblox-2021-studio",
-    version: "1.5.6",
+    version: "1.5.7",
   },
   {
     capabilities: {
@@ -726,5 +726,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 });
 
-const transport = new StdioServerTransport();
-await server.connect(transport);
+if (!process.argv.includes("--ui")) {
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+}

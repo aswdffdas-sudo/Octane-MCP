@@ -3,8 +3,18 @@
 ================================================================================
 
 This project connects AI tools (OpenCode, Claude Desktop, Cursor, Codex, 
-Windsurf, Claude Code) directly to 2021 Roblox Studio / Aisaka Studio using 
-Anthropic's Model Context Protocol (MCP).
+Windsurf, Claude Code, and Browser AIs via ZeroScript) directly to 2021 
+Roblox Studio / Aisaka Studio using Anthropic's Model Context Protocol (MCP).
+
+================================================================================
+FASTEST WAY: OPEN THE NATIVE DESKTOP SETUP APP
+================================================================================
+Double-click "Octane Studio MCP Setup.exe"!
+It gives you a native Windows desktop app with a step-by-step wizard:
+  - 1-Click Auto-Install for the Roblox Studio Plugin (MCPBridge2021.lua)
+  - 1-Click Dependency Installer (runs npm install inside the app)
+  - 1-Click Auto-Configuration for OpenCode, Claude Desktop, Cursor & Windsurf
+  - Live Studio Connection Tester & Screenshot Preview
 
 --------------------------------------------------------------------------------
 STEP 1: INSTALL THE STUDIO PLUGIN
